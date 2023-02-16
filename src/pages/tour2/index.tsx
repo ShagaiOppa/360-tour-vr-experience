@@ -9,7 +9,7 @@ export default function Page(props) {
 }
 
 function Comp() {
-  const texture = useVideoTexture('/assets/video1.mp4', { start: true })
+  const texture = useVideoTexture('https://storage.googleapis.com/360-tour-vr-experience-bucket-public/VR_TEST_V1_1080p.mp4', { start: true })
   return (
     <mesh>
       <sphereGeometry attach="geometry" args={[500, 60, 40]} />

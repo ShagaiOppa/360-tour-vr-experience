@@ -1,5 +1,7 @@
 import * as THREE from 'three'
-import { useLoader } from "@react-three/fiber"
+import { useLoader, useThree } from "@react-three/fiber"
+import { useEffect, useState } from 'react';
+import { VRButton } from 'three-stdlib';
 
 // Dom components go here
 export default function Page(props) {
@@ -9,7 +11,43 @@ export default function Page(props) {
 }
 
 function Dome() {
+  const [isVR, setIsVR] = useState(false);
+  const { gl } = useThree();
   const texture = useLoader(THREE.TextureLoader, '/assets/image1.jpg')
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      //
+        // document.body.appendChild( VRButton.createButton( renderer ) );
+        const isSupported =  navigator.xr.isSessionSupported('immersive-vr')
+        console.log({isSupported});
+
+        if (!isVR && gl.xr) {
+      gl.xr.enabled = true;
+      gl.xr.setReferenceSpaceType('local');
+      const session = gl.xr.getSession();
+      if (session) {
+        session.requestReferenceSpace('local').then((refSpace) => {
+          session.requestAnimationFrame((time, frame) => {
+            gl.xr.setReferenceSpace(refSpace);
+            gl.xr.setSession(session);
+          });
+        });
+      }
+    } else if (gl.xr && gl.xr.getSession()) {
+      gl.xr.getSession().then((session) => {
+        session.end();
+      });
+    }
+        
+
+    }, 5000)
+  
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [])
+  
   return (
     <mesh>
       <sphereGeometry attach="geometry" args={[500, 60, 40]} />
