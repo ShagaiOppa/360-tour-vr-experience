@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { useLoader, useThree } from "@react-three/fiber"
-import { useEffect, useState } from 'react';
-import { VRButton } from 'three-stdlib';
+import { useState } from 'react';
 
 // Dom components go here
 export default function Page(props) {
@@ -15,38 +14,38 @@ function Dome() {
   const { gl } = useThree();
   const texture = useLoader(THREE.TextureLoader, '/assets/image1.jpg')
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      //
-        // document.body.appendChild( VRButton.createButton( renderer ) );
-        const isSupported =  navigator.xr.isSessionSupported('immersive-vr')
-        console.log({isSupported});
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     //
+  //       // document.body.appendChild( VRButton.createButton( renderer ) );
+  //       const isSupported =  navigator.xr.isSessionSupported('immersive-vr')
+  //       console.log({isSupported});
 
-        if (!isVR && gl.xr) {
-      gl.xr.enabled = true;
-      gl.xr.setReferenceSpaceType('local');
-      const session = gl.xr.getSession();
-      if (session) {
-        session.requestReferenceSpace('local').then((refSpace) => {
-          session.requestAnimationFrame((time, frame) => {
-            gl.xr.setReferenceSpace(refSpace);
-            gl.xr.setSession(session);
-          });
-        });
-      }
-    } else if (gl.xr && gl.xr.getSession()) {
-      gl.xr.getSession().then((session) => {
-        session.end();
-      });
-    }
+  //       if (!isVR && gl.xr) {
+  //     gl.xr.enabled = true;
+  //     gl.xr.setReferenceSpaceType('local');
+  //     const session = gl.xr.getSession();
+  //     if (session) {
+  //       session.requestReferenceSpace('local').then((refSpace) => {
+  //         session.requestAnimationFrame((time, frame) => {
+  //           gl.xr.setReferenceSpace(refSpace);
+  //           gl.xr.setSession(session);
+  //         });
+  //       });
+  //     }
+  //   } else if (gl.xr && gl.xr.getSession()) {
+  //     gl.xr.getSession().then((session) => {
+  //       session.end();
+  //     });
+  //   }
         
 
-    }, 5000)
+  //   }, 5000)
   
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [])
+  //   return () => {
+  //     clearTimeout(timer)
+  //   }
+  // }, [])
   
   return (
     <mesh>
