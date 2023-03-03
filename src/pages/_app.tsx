@@ -3,11 +3,13 @@ import dynamic from 'next/dynamic'
 import Header from '@/config'
 import Layout from '@/components/dom/Layout'
 import '@/styles/index.css'
+import { Loader } from '@react-three/drei'
 
 const Scene = dynamic(() => import('@/components/canvas/Scene'), { ssr: true })
 
 export default function App({ Component, pageProps = { title: 'index' } }) {
   const ref = useRef()
+  
   return (
     <>
       <Header title={pageProps.title} />
@@ -21,6 +23,7 @@ export default function App({ Component, pageProps = { title: 'index' } }) {
             {Component.canvas(pageProps)}
           </Scene>
         )}
+        <Loader />
       </Layout>
     </>
   )

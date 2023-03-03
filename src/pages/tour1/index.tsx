@@ -1,7 +1,5 @@
 import * as THREE from 'three'
-import { useLoader, useThree } from "@react-three/fiber"
-import { useState } from 'react';
-
+import { useLoader } from "@react-three/fiber"
 // Dom components go here
 export default function Page(props) {
   return (
@@ -9,43 +7,8 @@ export default function Page(props) {
   )
 }
 
-function Dome() {
-  const [isVR, setIsVR] = useState(false);
-  const { gl } = useThree();
+function Sphere() {
   const texture = useLoader(THREE.TextureLoader, '/assets/image1.jpg')
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     //
-  //       // document.body.appendChild( VRButton.createButton( renderer ) );
-  //       const isSupported =  navigator.xr.isSessionSupported('immersive-vr')
-  //       console.log({isSupported});
-
-  //       if (!isVR && gl.xr) {
-  //     gl.xr.enabled = true;
-  //     gl.xr.setReferenceSpaceType('local');
-  //     const session = gl.xr.getSession();
-  //     if (session) {
-  //       session.requestReferenceSpace('local').then((refSpace) => {
-  //         session.requestAnimationFrame((time, frame) => {
-  //           gl.xr.setReferenceSpace(refSpace);
-  //           gl.xr.setSession(session);
-  //         });
-  //       });
-  //     }
-  //   } else if (gl.xr && gl.xr.getSession()) {
-  //     gl.xr.getSession().then((session) => {
-  //       session.end();
-  //     });
-  //   }
-        
-
-  //   }, 5000)
-  
-  //   return () => {
-  //     clearTimeout(timer)
-  //   }
-  // }, [])
   
   return (
     <mesh>
@@ -54,9 +17,25 @@ function Dome() {
     </mesh>
   )
 }
+
+function Node() {
+  const texture = useLoader(THREE.TextureLoader, '/icons/info.png')
+  return (
+    <sprite position={[-5,0,-400]} scale={[25, 25, 25]}>
+      <spriteMaterial attach="material" map={texture} />
+    </sprite>
+  )
+}
 // Canvas components go here
 // It will receive same props as the Page component (from getStaticProps, etc.)
-Page.canvas = (props) => <Dome />
+Page.canvas = (props) => {
+  return (
+    <>
+    <Node />
+    <Sphere />
+    </>
+  )
+}
 
 export async function getStaticProps() {
   return { props: { title: 'tour1' } }

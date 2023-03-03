@@ -1,6 +1,7 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Preload } from '@react-three/drei'
 import { useRef } from 'react'
+import { VRButton, ARButton, XR, Controllers, Hands } from '@react-three/xr'
 
 function Controls(props) {
   const { camera, gl } = useThree()
@@ -12,13 +13,20 @@ function Controls(props) {
 export default function Scene({ children, ...props }) {
   // Everything defined in here will persist between route changes, only children are swapped
   return (
-    <Canvas {...props}>
-      <directionalLight intensity={0.75} />
-      <ambientLight intensity={0.75} />
-      {children}
-      <Preload all />
-      {/* <OrbitControls /> */}
-      <Controls enableZoom={false} enablePan={false} enableDamping dampingFactor={0.2}  rotateSpeed={-0.5} />
-    </Canvas>
+    <>
+      <VRButton />
+      <Canvas {...props}>
+        <XR>
+          <Controllers />
+          <Hands />
+          <directionalLight intensity={0.75} />
+          <ambientLight intensity={0.75} />
+          {children}
+          <Preload all />
+          {/* <OrbitControls /> */}
+          <Controls enableZoom={false} enablePan={false} enableDamping dampingFactor={0.2}  rotateSpeed={-0.5} />
+        </XR>
+      </Canvas>
+    </>
   )
 }
